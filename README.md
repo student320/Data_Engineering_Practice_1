@@ -8,7 +8,7 @@ What's the version of pip in the image?
 
 **Answer:**
 GitBash commands
-```Bash
+````bash`
 $ docker run -it python:3.12.8 bash
 root@7c1f376a6587:/# pip --version
 pip 24.3.1 from /usr/local/lib/python3.12/site-packages/pip (python 3.12)
