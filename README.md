@@ -8,11 +8,12 @@ What's the version of pip in the image?
 
 **Answer:**
 GitBash commands
-```
+```Bash
 $ docker run -it python:3.12.8 bash
 root@7c1f376a6587:/# pip --version
 pip 24.3.1 from /usr/local/lib/python3.12/site-packages/pip (python 3.12)
 root@7c1f376a6587:/#
+```
 
 - 24.3.1
 
@@ -20,7 +21,7 @@ root@7c1f376a6587:/#
 **Qustion 2.**
 
 Given the following docker-compose.yaml, what is the hostname and port that pgadmin should use to connect to the postgres database?
-
+```Bash
 services:
   db:
     container_name: postgres
@@ -50,14 +51,15 @@ volumes:
     name: vol-pgdata
   vol-pgadmin_data:
     name: vol-pgadmin_data
+```
 
 **Answer:**
 - db:5432
 
 **Prepare Postgres:**
 
-GitBash commands:
 
+```Bash
 #"Use Docker Compose file from above to set up the environment and run postgres."
 docker compose up -d 
 
@@ -86,7 +88,7 @@ python ingest_data_1.py \
     --db=ny_taxi \
     --table_name=taxi_zone \
     --url=${URL}
-
+```
 **Question 3. Trip Segmentation Count**
 During the period of October 1st 2019 (inclusive) and November 1st 2019 (exclusive), how many trips, respectively, happened:
 Up to 1 mile
@@ -96,6 +98,8 @@ In between 7 (exclusive) and 10 miles (inclusive),
 Over 10 miles
 
 **Answer**
+
+```PostreSQL
 SELECT
 	SUM(CASE WHEN trip_distance <=1 THEN 1 ELSE 0 END) as num_up_to_1,
 	SUM(CASE WHEN trip_distance >1 and trip_distance <=3 THEN 1 ELSE 0 END) as num_trips_between_1_3,
@@ -110,11 +114,12 @@ WHERE
     and lpep_dropoff_datetime >= '2019-10-01'
     and lpep_dropoff_datetime < '2019-11-01'
 ;
-
+```
 ![image](https://github.com/user-attachments/assets/0f943858-eaaa-4ab9-a851-bb1589a65f51)
 
 
 **Answer #2**
+```PostgreSQL
 SELECT
 CASE
 	WHEN trip_distance <=1 THEN 'up to 1 mile'
@@ -133,7 +138,7 @@ WHERE
     and lpep_dropoff_datetime < '2019-11-01'
 GROUP BY segment
 ;
-
+```
 ![image](https://github.com/user-attachments/assets/7eb8182a-b6fd-42ca-8670-1953f9b07320)
 
 
@@ -148,6 +153,7 @@ Tip: For every day, we only care about one single trip with the longest distance
 2019-10-31
 
 **Answer**
+```PostgreSQL
 SELECT
 	DATE(lpep_pickup_datetime) as pickup_date,
 	MAX(trip_distance) as max_distance_per_day
@@ -159,6 +165,7 @@ ORDER BY
 	max_distance_per_day DESC
 limit 1
 ;
+```
 ![image](https://github.com/user-attachments/assets/0e8394e6-25cc-4596-924f-9595fa1ecda4)
 
 
@@ -168,6 +175,7 @@ Which were the top pickup locations with over 13,000 in total_amount (across all
 Consider only lpep_pickup_datetime when filtering by date.
 
 **Answer**
+```PostgreSQL
 SELECT
 	tz."Zone",
 	ROUND(SUM(total_amount)::numeric,2) as total_amount
@@ -186,7 +194,7 @@ ORDER BY
 	total_amount
 LIMIT 3
 ;
-
+```
 ![image](https://github.com/user-attachments/assets/fd89f560-41dc-4770-9239-229dbb5c7d8b)
 
 **Question 6. Largest tip**
@@ -203,6 +211,7 @@ East Harlem North
 East Harlem South
 
 **Answer**
+```PostgreSQL
 SELECT
 	tzdo."Zone",
 	round(tip_amount::numeric,2) as total_tip_amount
@@ -221,7 +230,7 @@ WHERE
 ORDER BY total_tip_amount DESC
 limit 1
 ;
-
+```
 ![image](https://github.com/user-attachments/assets/90ef9b50-971b-434c-910e-930d3061d2c0)
 
 **Question 7. Terraform Workflow**
