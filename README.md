@@ -94,7 +94,7 @@ In between 3 (exclusive) and 7 miles (inclusive),
 In between 7 (exclusive) and 10 miles (inclusive),
 Over 10 miles
 
-
+**Answer**
 SELECT
 	SUM(CASE WHEN trip_distance <=1 THEN 1 ELSE 0 END) as num_up_to_1,
 	SUM(CASE WHEN trip_distance >1 and trip_distance <=3 THEN 1 ELSE 0 END) as num_trips_between_1_3,
@@ -113,6 +113,7 @@ WHERE
 ![image](https://github.com/user-attachments/assets/0f943858-eaaa-4ab9-a851-bb1589a65f51)
 
 
+**Answer #2**
 SELECT
 CASE
 	WHEN trip_distance <=1 THEN 'up to 1 mile'
@@ -145,6 +146,7 @@ Tip: For every day, we only care about one single trip with the longest distance
 2019-10-26
 2019-10-31
 
+**Answer**
 SELECT
 	DATE(lpep_pickup_datetime) as pickup_date,
 	MAX(trip_distance) as max_distance_per_day
@@ -164,7 +166,7 @@ limit 1
 Which were the top pickup locations with over 13,000 in total_amount (across all trips) for 2019-10-18?
 Consider only lpep_pickup_datetime when filtering by date.
 
-
+**Answer**
 SELECT
 	tz."Zone",
 	ROUND(SUM(total_amount)::numeric,2) as total_amount
@@ -199,7 +201,7 @@ JFK Airport
 East Harlem North
 East Harlem South
 
-
+**Answer**
 SELECT
 	tzdo."Zone",
 	round(tip_amount::numeric,2) as total_tip_amount
@@ -221,4 +223,19 @@ limit 1
 
 ![image](https://github.com/user-attachments/assets/90ef9b50-971b-434c-910e-930d3061d2c0)
 
+**Question 7. Terraform Workflow**
+Which of the following sequences, respectively, describes the workflow for:
+
+Downloading the provider plugins and setting up backend,
+Generating proposed changes and auto-executing the plan
+Remove all resources managed by terraform`
+
+terraform import, terraform apply -y, terraform destroy
+teraform init, terraform plan -auto-apply, terraform rm
+terraform init, terraform run -auto-approve, terraform destroy
+terraform init, terraform apply -auto-approve, terraform destroy
+terraform import, terraform apply -y, terraform rm
+
+**Answer**
+terraform init, terraform apply -auto-approve, terraform destroy
 
