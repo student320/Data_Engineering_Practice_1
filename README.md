@@ -8,7 +8,7 @@ What's the version of pip in the image?
 
 **Answer:**
 GitBash commands
-````bash`
+```bash
 $ docker run -it python:3.12.8 bash
 root@7c1f376a6587:/# pip --version
 pip 24.3.1 from /usr/local/lib/python3.12/site-packages/pip (python 3.12)
@@ -21,7 +21,7 @@ root@7c1f376a6587:/#
 **Qustion 2.**
 
 Given the following docker-compose.yaml, what is the hostname and port that pgadmin should use to connect to the postgres database?
-```Bash
+```bash
 services:
   db:
     container_name: postgres
@@ -59,7 +59,7 @@ volumes:
 **Prepare Postgres:**
 
 
-```Bash
+```bash
 #"Use Docker Compose file from above to set up the environment and run postgres."
 docker compose up -d 
 
@@ -99,7 +99,7 @@ Over 10 miles
 
 **Answer**
 
-```PostreSQL
+```sql
 SELECT
 	SUM(CASE WHEN trip_distance <=1 THEN 1 ELSE 0 END) as num_up_to_1,
 	SUM(CASE WHEN trip_distance >1 and trip_distance <=3 THEN 1 ELSE 0 END) as num_trips_between_1_3,
@@ -119,7 +119,7 @@ WHERE
 
 
 **Answer #2**
-```PostgreSQL
+```sql
 SELECT
 CASE
 	WHEN trip_distance <=1 THEN 'up to 1 mile'
@@ -153,7 +153,7 @@ Tip: For every day, we only care about one single trip with the longest distance
 2019-10-31
 
 **Answer**
-```PostgreSQL
+```sql
 SELECT
 	DATE(lpep_pickup_datetime) as pickup_date,
 	MAX(trip_distance) as max_distance_per_day
@@ -175,7 +175,7 @@ Which were the top pickup locations with over 13,000 in total_amount (across all
 Consider only lpep_pickup_datetime when filtering by date.
 
 **Answer**
-```PostgreSQL
+```sql
 SELECT
 	tz."Zone",
 	ROUND(SUM(total_amount)::numeric,2) as total_amount
@@ -211,7 +211,7 @@ East Harlem North
 East Harlem South
 
 **Answer**
-```PostgreSQL
+```sql
 SELECT
 	tzdo."Zone",
 	round(tip_amount::numeric,2) as total_tip_amount
